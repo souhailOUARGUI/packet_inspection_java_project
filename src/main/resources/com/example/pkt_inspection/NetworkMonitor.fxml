@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.pkt_inspection.NetworkMonitorController"
+            stylesheets="@styles.css">
+    
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+
+    <top>
+        <ToolBar>
+            <items>
+                <Label text="Interface:"/>
+                <ComboBox fx:id="deviceSelector" promptText="Select Network Interface"/>
+                <Label text="Filter:"/>
+                <TextField fx:id="filterField" promptText="Enter BPF Filter (e.g., tcp port 80)" prefWidth="200"/>
+                <Separator orientation="VERTICAL"/>
+                <Button fx:id="startButton" text="Start Capture" onAction="#startCapture"/>
+                <Button fx:id="stopButton" text="Stop Capture" onAction="#stopCapture" disable="true"/>
+            </items>
+        </ToolBar>
+    </top>
+
+    <center>
+        <SplitPane dividerPositions="0.6">
+            <items>
+                <VBox spacing="10">
+                    <padding>
+                        <Insets top="5" right="5" bottom="5" left="5"/>
+                    </padding>
+                    <children>
+                        <Label text="Captured Packets:"/>
+                        <TableView fx:id="packetTable" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="timeColumn" text="Time" prefWidth="150"/>
+                                <TableColumn fx:id="sourceColumn" text="Source" prefWidth="150"/>
+                                <TableColumn fx:id="destColumn" text="Destination" prefWidth="150"/>
+                                <TableColumn fx:id="protocolColumn" text="Protocol" prefWidth="100"/>
+                                <TableColumn fx:id="lengthColumn" text="Length" prefWidth="80"/>
+                            </columns>
+                        </TableView>
+                        <HBox spacing="20">
+                            <children>
+                                <Label fx:id="statusLabel" text="Ready"/>
+                                <Label fx:id="packetsCountLabel" text="Packets: 0"/>
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+                <VBox spacing="10">
+                    <padding>
+                        <Insets top="5" right="5" bottom="5" left="5"/>
+                    </padding>
+                    <children>
+                        <Label text="Packet Details:"/>
+                        <TextArea fx:id="packetDetails" editable="false" wrapText="true" VBox.vgrow="ALWAYS"/>
+                        <Label text="Alerts:"/>
+                        <ListView fx:id="alertList" VBox.vgrow="ALWAYS" prefHeight="200"/>
+                    </children>
+                </VBox>
+            </items>
+        </SplitPane>
+    </center>
+</BorderPane>
